@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+:root {
+    --background: #fff;
+    --success: #04a981;
+    --error: #f54751;
+    --warning: #facc15;
+    --info: rgb(237, 240, 247);
+    --primary: rgb(49, 95, 238);
+    --default: rgb(16, 20, 31);
+}
+
+.dark {
+    /* 状态颜色也可以根据暗色主题调整（可选） */
+    --success: #04a981;
+    --error: #f54751;
+    --warning: #f59e0b;
+    --primary: rgb(49, 95, 238);
+    --default: #fff;
+    --info: rgb(16, 20, 31);
+}
+
+@layer utilities {
+    .text-success { color: var(--success); }
+    .text-error { color: var(--error); }
+    .text-warning { color: var(--warning); }
+    .text-info { color: var(--info); }
+    .bg-success { background-color: var(--success); }
+    .bg-error { background-color: var(--error); }
+    .bg-warning { background-color: var(--warning); }
+    .bg-info { background-color: var(--info); }
+    .border-success { border-color: var(--success); }
+    .border-error { border-color: var(--error); }
+    .border-warning { border-color: var(--warning); }
+    .border-info { border-color: var(--info); }
+
+    .text-primary { color: var(--primary); }
+    .bg-primary { background-color: var(--primary); }
+    .border-primary { border-color: var(--primary); }
+
+    .text-default { color: var(--default); }
+    .bg-default { background-color: var(--default); }
+    .border-default { border-color: var(--default); }
+
+    .bg-background { background-color: var(--background); }
+}

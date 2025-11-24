@@ -1,0 +1,18 @@
+﻿{
+  "oneClickTrade": "一键买卖",
+  "trade": "交易",
+  "spotTrade": "现货交易",
+  "networkBot": "网络机器人",
+  "finance": "理财",
+  "fixedInvestment": "定期定额",
+  "referralReward": "推荐奖励",
+  "multiOrderSupport": "支持多样下单方式",
+  "autoTrading": "无需盯盘，自动化高卖低买",
+  "notification": "通知",
+  "customerService": "客服",
+  "qrCode": "二维码",
+  "help": "帮助",
+  "faq": "常见问题",
+  "limitsFees": "限制与费用",
+  "contactUs": "联系我们"
+}
