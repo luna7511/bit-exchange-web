@@ -38,6 +38,7 @@ export const Button = styled(
 )(() => ({
     flexDirection: "row",
     fontWeight: "normal",
+    textTransform: "none",
 
     "&.MuiButton-text": {
         "&:hover": {
@@ -54,14 +55,17 @@ export const Button = styled(
     "&.MuiButton-sizeExtraSmall": { fontSize: "13px" },
     "&.MuiButton-sizeSmall": { fontSize: "14px" },
     "&.MuiButton-sizeMedium": {
-        fontSize: "16px", fontWeight: "bold",
+        fontSize: "14px", fontWeight: "bold",
+        padding: "8.5px 21px",
         "@media (min-width: 1024px)": {
             fontWeight: "normal",
+            fontSize: "16px",
         },
     },
     "&.MuiButton-sizeLarge": {
         fontSize: "16px",
         fontWeight: "bold",
+        padding: "10px 21px",
         "@media (min-width: 1024px)": {
             fontSize: "17px",
         },
@@ -70,6 +74,7 @@ export const Button = styled(
     "&.MuiButton-sizeBigLarge": {
         fontSize: "16px",
         fontWeight: "bold",
+        padding: "12px 21px",
         "@media (min-width: 1024px)": {
             fontSize: "20px",
         },

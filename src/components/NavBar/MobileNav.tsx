@@ -4,16 +4,17 @@ import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseIcon from "@mui/icons-material/Close";
-import {accordionSummaryClasses, styled} from "@mui/material";
+import {styled} from "@mui/material";
 import {type MenuItemType} from "./types";
 import MuiAccordion, {type AccordionProps} from "@mui/material/Accordion";
-import MuiAccordionSummary, {type AccordionSummaryProps} from "@mui/material/AccordionSummary";
+import MuiAccordionSummary, {type AccordionSummaryProps, accordionSummaryClasses} from "@mui/material/AccordionSummary";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import { Fragment } from "react/jsx-runtime";
 import {themeColor} from "@/theme";
 import {useGlobalStore} from "@/store/useGlobalStore.ts";
 import {type FC, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
 
 const Accordion = styled((props: AccordionProps) => (
@@ -33,14 +34,14 @@ const Accordion = styled((props: AccordionProps) => (
 
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
     <MuiAccordionSummary
-        expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '16px', fontWeight: 'bold' }} />}
+        expandIcon={<ArrowForwardIosSharpIcon className="text-base font-bold" />}
         {...props}
     />
 ))(() => ({
     backgroundColor: "transparent",
     flexDirection: 'row',
     padding: "8px",
-    fontSize: '16px',
+    fontSize: '1rem',
     fontWeight: 'bold',
     textAlign: 'left',
     minHeight: "auto",
@@ -96,6 +97,8 @@ export default function MobileNav({
 
     const theme = useGlobalStore(state => state.theme);
 
+    const navigate = useNavigate();
+
     // -------------------------------
     // 监听屏幕宽度变化，并在 >= 1024 时自动关闭 Drawer
     // -------------------------------
@@ -135,11 +138,11 @@ export default function MobileNav({
                     <Button variant="contained" color="info" size="medium" sx={{
                         borderRadius: '20px',
                         flex: 1,
-                    }}>登录</Button>
+                    }} onClick={() => navigate("/users/signIn")}>登录</Button>
                     <Button variant="contained" size="medium" sx={{
                         borderRadius: '20px',
                         flex: 1,
-                    }}>注册</Button>
+                    }} onClick={() => navigate("/users/signUp")}>注册</Button>
                 </div>
 
                 {/* --------- 菜单 --------- */}
@@ -185,9 +188,8 @@ export default function MobileNav({
                             <Accordion>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
+                                    className="text-sm font-normal!"
                                     sx={{
-                                        fontWeight: "400",
-                                        fontSize: "14px",
                                         [`& .${accordionSummaryClasses.content}`]: {
                                             marginLeft: "-3px",
                                         },

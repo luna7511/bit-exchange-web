@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import MUIMenuItem, {type MenuItemProps} from "@mui/material/MenuItem";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {type FC, type JSX, type ReactNode, useRef, useState} from "react";
+import {cloneElement, type FC, isValidElement, type JSX, type ReactNode, useRef, useState} from "react";
 import {cn} from "@/lib/utils.ts";
 import {styled} from "@mui/material/styles";
 import {useGlobalStore} from "@/store/useGlobalStore.ts";
@@ -10,7 +10,7 @@ import {Popper} from "@/components/Popper";
 import {Button} from "@/components/Button";
 
 export interface DrawMenuProps {
-    triggerLabel?: string;
+    triggerLabel?: string | ReactNode;
     triggerIcon?: JSX.Element | ReactNode;
     TriggerComponent?: ReactNode; // 自定义 Trigger
     children?: ReactNode[];
@@ -76,7 +76,15 @@ export const DrawMenu: FC<DrawMenuProps> = ({
                     onMouseLeave={handleMouseLeave}
                     // className="min-w-[200px]"
                 >
-                    {children?.map((child) => child)}
+                    {/*{children?.map((child) => child)}*/}
+
+                    {children?.map((child) =>
+                        isValidElement(child)
+                            ? cloneElement(child, {
+                                closeMenu: () => setAnchorEl(null)
+                            })
+                            : child
+                    )}
                 </Paper>
             </Popper>
         </Box>
@@ -103,19 +111,25 @@ const MenuItem = styled(({className, ...props}: MenuItemProps) => (
         },
     }),
 }));
-export interface DrawMenuItem {
+export interface DrawMenuItem extends MenuItemProps{
     label?: string | ReactNode;
     description?: string | ReactNode;
     icon?: JSX.Element | ReactNode;
     children?: ReactNode[];
     className?: string;
+    closeMenu?: () => void
 }
 export const DrawMenuItem: FC<DrawMenuItem> = ({
-                                                   icon, label, description, children, className,
+                                                   icon, label, description, children, className, closeMenu, onClick, ...props
                                                }) => {
     const theme = useGlobalStore(state => state.theme);
+
+    const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
+        onClick?.(e); // 调用原有 onClick
+        closeMenu?.();      // 关闭 DrawMenu
+    };
     return (
-        <MenuItem className={cn("min-w-[180px]", className)}>
+        <MenuItem className={cn("min-w-[180px]", className)} onClick={handleClick} {...props}>
             {icon}
 
             {

@@ -8,10 +8,10 @@ import {useGlobalStore} from "@/store/useGlobalStore.ts";
 import darkTheme from "@/theme/dark";
 import lightTheme from "@/theme/light";
 import i18n from "i18next";
+import { Toaster } from 'sonner';
 
 function App() {
     const theme = useGlobalStore(state => state.theme);
-
     const lang = useGlobalStore((state) => state.lang);
 
     useEffect(() => {
@@ -22,6 +22,7 @@ function App() {
   return (
     <>
         <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+            <Toaster richColors position="top-center" />
             <Suspense fallback={<div>Loading...</div>}>
                 <RouterProvider router={router} />
             </Suspense>

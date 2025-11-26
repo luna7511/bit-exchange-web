@@ -54,7 +54,7 @@ export default function NavBar({
                 }}
             >
                 <Toolbar className="container mx-auto flex gap-6 px-6 justify-between min-h-auto! max-w-[inherit]!">
-                    <Box sx={{ fontWeight: 700, fontSize: 24, lineHeight: navHeight + "px" }}>
+                    <Box className="text-2xl font-bold" sx={{ lineHeight: navHeight + "px" }}>
                         BitoPro
                     </Box>
 

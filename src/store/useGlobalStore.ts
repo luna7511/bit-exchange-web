@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 interface GlobalState {
     theme: "light" | "dark" | "black";
-    lang: "en" | "zh-CN";
+    lang: "en" | "zh-CN" | "zh-TW";
     isMobile: boolean;
     isLoggedIn: boolean;
     setTheme: (v: GlobalState["theme"]) => void;

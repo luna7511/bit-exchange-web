@@ -3,6 +3,7 @@ import { Button, IconButton } from "@/components/Button";
 import { DrawMenu, DrawMenuItem } from "../DrawMenu";
 import {type MenuItemType} from "./types";
 import {cn} from "@/lib/utils.ts";
+import {useNavigate} from "react-router-dom";
 
 export default function DesktopNav({
                                        menuItems,
@@ -12,6 +13,9 @@ export default function DesktopNav({
     userMenuItems: MenuItemType[];
 }) {
     const heightClass = "h-[var(--navbarHeight)]";
+
+    const navigate = useNavigate();
+
     return (
         <Box className="hidden lg:flex justify-between flex-1">
             {/* ------- 左侧菜单 ------- */}
@@ -47,12 +51,12 @@ export default function DesktopNav({
                 <div>
                     <Button color="info" size="small" sx={{
                         borderRadius: '35px',
-                    }}>登录</Button>
+                    }} onClick={() => navigate("/users/signIn")}>登录</Button>
                 </div>
                 <div>
                     <Button size="small" sx={{
                         borderRadius: '35px',
-                    }}>注册</Button>
+                    }} onClick={() => navigate("/users/signUp")}>注册</Button>
                 </div>
                 <Divider flexItem orientation="vertical" sx={{
                     height: "30px",

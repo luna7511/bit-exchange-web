@@ -12,7 +12,7 @@ import {cn} from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
 
 const colorSize = {
-    fontSize: "20px"
+    fontSize: "1.25rem"
 }
 export default function Header() {
     const {t} = useTranslation("header");

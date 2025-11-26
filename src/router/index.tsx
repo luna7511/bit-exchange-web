@@ -6,8 +6,8 @@ const MainLayout = lazy(() =>
     import(/* @vite-chunk: "main-layout" */ "@/layouts/MainLayout")
 );
 
-const TradeLayout = lazy(() =>
-    import(/* @vite-chunk: "trade-layout" */ "@/layouts/TradeLayout")
+const AuthLayout = lazy(() =>
+    import(/* @vite-chunk: "trade-layout" */ "@/layouts/AuthLayout")
 );
 
 // auth pages
@@ -28,21 +28,33 @@ const HomePage = lazy(() =>
     import(/* @vite-chunk: "home-page" */ "@/pages/homePage/Home")
 );
 
+
+const TermsPage = lazy(() =>
+    import(/* @vite-chunk: "home-terms" */ "@/pages/commonPage/Terms")
+);
+
 export const router = createBrowserRouter(
     createRoutesFromElements(
         <>
-            <Route path="login" element={<LoginPage />} />
-            <Route path="register" element={<RegisterPage />} />
+            <Route path="users" element={<AuthLayout />}>
+                <Route path="signIn" element={<LoginPage />} handle={{ theme: "dark", pageBgColor: "#1B2333" }} />
+                <Route path="signUp" element={<RegisterPage />} handle={{ theme: "dark", pageBgColor: "#1B2333" }} />
+            </Route>
 
             {/* 主站 */}
             <Route element={<MainLayout />}>
                 <Route index element={<HomePage />} />
+
+                {/* 交易页 */}
+                <Route path="trade" element={<TradePage />} />
+
+                <Route path="userTerms" element={<TermsPage type={"TERMS_CLAUSE"}  />} handle={{ theme: "dark" }} />
             </Route>
 
             {/* 交易页 */}
-            <Route path="trade" element={<TradeLayout />}>
-                <Route index element={<TradePage />} />
-            </Route>
+            {/*<Route path="trade" element={<AuthLayout />}>*/}
+            {/*    <Route index element={<TradePage />} />*/}
+            {/*</Route>*/}
         </>
     )
 );

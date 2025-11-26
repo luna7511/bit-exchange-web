@@ -1,8 +1,9 @@
-import axios from "axios";
+import axios, {type AxiosRequestConfig} from "axios";
 
 import { API_BASE_URL, IS_PROD } from "@/config";
 import { useUserStore } from "@/store/useUserStore";
-import { toast } from "sonner"
+import {toast} from "sonner";
+import {useGlobalStore} from "@/store/useGlobalStore.ts";
 
 const service = axios.create({
     baseURL: API_BASE_URL,
@@ -12,10 +13,12 @@ const service = axios.create({
 // 请求拦截
 service.interceptors.request.use(
     (config) => {
-        const token = useUserStore.getState().token
+        const lang = useGlobalStore.getState().lang;
+        config.headers["Accept-Language"] = lang;
 
+        const token = useUserStore.getState().token;
         if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+            config.headers.authorization = token;
         }
         if (!IS_PROD) {
             console.log("http请求", config.url, config.params, config.data);
@@ -28,23 +31,24 @@ service.interceptors.request.use(
 // 响应拦截
 service.interceptors.response.use(
     (res) => {
-        console.log("http返回", res.config.url, res.data);
+        if (!IS_PROD) {
+            console.log("http返回", res.config.url, res.data);
+        }
 
         const data = res.data;
-        const errorData = data.msg;
-
-        // 错误处理
-        if (data.code === "003") {
-            console.error("token过期");
-            useUserStore.getState().userLogout();
+        if (data.code !== 200) {
+            // 错误处理
+            if (data.code === "500" && data?.msg?.includes('Token')) {
+                console.error("token过期");
+                useUserStore.getState().userLogout();
+                window.location.href = "/users/signIn";
+            } else if (data.msg) {
+                toast.error(data.msg)
+            }
+            return Promise.reject(data);
         }
 
-        if (errorData) {
-            toast.error(errorData);
-            return Promise.reject(errorData);
-        }
-
-        return data?.data;
+        return data;
     },
     (err: Error) => {
         console.log("请求失败", err, err.message);
@@ -58,4 +62,19 @@ service.interceptors.response.use(
     },
 );
 
-export default service;
+const request = {
+    post: async <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> => {
+        return service.post(url, data, config);
+    },
+    get: async <T = any>(url: string, params?: any, config?: AxiosRequestConfig): Promise<T> => {
+        return service.get(url, { ...config, params });
+    },
+    put: async <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> => {
+        return service.put(url, data, config);
+    },
+    delete: async <T = any>(url: string, params?: any, config?: AxiosRequestConfig): Promise<T> => {
+        return service.delete(url, { ...config, params });
+    },
+};
+
+export default request;
