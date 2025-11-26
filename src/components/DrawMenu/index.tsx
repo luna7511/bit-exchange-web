@@ -47,6 +47,9 @@ export const DrawMenu: FC<DrawMenuProps> = ({
                         className={heightClass}
                         color="inherit"
                         variant="text"
+                        sx={{
+                            paddingInline: "12px !important",
+                        }}
                     >
                         {triggerIcon}
                         {triggerLabel}

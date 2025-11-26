@@ -38,7 +38,9 @@ export default function DesktopNav({
                             ))}
                         </DrawMenu>
                     ) : (
-                        <Button key={item.label} color="inherit" variant="text" className={heightClass}>
+                        <Button key={item.label} color="inherit" variant="text" sx={{
+                            paddingInline: "12px !important",
+                        }} className={heightClass}>
                             {item.icon}
                             {item.label}
                         </Button>
