@@ -251,8 +251,9 @@ const Register = () => {
                                             variant="text"
                                             color="inherit"
                                             size="small"
-                                            disabled={countdown.count > 0}
+                                            disabled={countdown.count > 0 || isPendingSendCode}
                                             onClick={() => sendCaptcha()}
+                                            loading={isPendingSendCode}
                                             sx={{paddingInline: 0, minWidth: "100px", justifyContent: "flex-end"}}
                                         >
                                             {countdown.count > 0 ? t("sent", {time: countdown.count}) : t("sendCaptchaCode")}
