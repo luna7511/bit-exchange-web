@@ -6,7 +6,6 @@ const Home = () => {
     return (
         <div className="px-6">
             <Button>ssss</Button>
-            提交测试
             {/*<Input*/}
             {/*    id="outlined-password-input"*/}
             {/*    label="Password"*/}
