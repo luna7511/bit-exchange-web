@@ -5,4 +5,5 @@ export interface MenuItemType {
     desc?: string;
     icon?: ReactNode | JSX.Element;
     children?: MenuItemType[];
+    href?: string;
 }

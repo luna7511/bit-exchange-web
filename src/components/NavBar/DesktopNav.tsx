@@ -40,7 +40,7 @@ export default function DesktopNav({
                     ) : (
                         <Button key={item.label} color="inherit" variant="text" sx={{
                             paddingInline: "12px !important",
-                        }} className={heightClass}>
+                        }} className={heightClass} onClick={() => item.href && navigate(item.href)}>
                             {item.icon}
                             {item.label}
                         </Button>
