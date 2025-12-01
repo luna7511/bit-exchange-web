@@ -1,0 +1,63 @@
+{
+  "title": "一键买卖",
+  "subtitle": "大额兑换一口价,快速拥有多种加密货币!",
+  "exchangeRate": "即时汇率约",
+  "iWantToSpend": "我想花费",
+  "iWantToSell": "我想卖出",
+  "iWillGet": "我会获得≈",
+  "loginToBuy": "登入后购买",
+  "loginToSell": "登入后卖出",
+  "recurringPurchase": "定期定额赚长期",
+  "amountRange": "100 ~ 1,000,000",
+  "features": {
+    "title": "功能特色",
+    "feature1": {
+      "title": "一口价",
+      "description": "固定价格交易"
+    },
+    "feature2": {
+      "title": "随时购买",
+      "description": "随时进行交易"
+    },
+    "feature3": {
+      "title": "轻松交易",
+      "description": "简单便捷"
+    }
+  },
+  "tabs": {
+    "buy": "购买",
+    "sell": "卖出"
+  },
+  "form": {
+    "selectCoin": "选择币种",
+    "amount": "数量",
+    "balance": "余额",
+    "available": "可用",
+    "price": "价格",
+    "total": "总计",
+    "submit": "确认",
+    "buyButton": "立即购买",
+    "sellButton": "立即卖出"
+  },
+  "balancePercentages": {
+    "25": "25%",
+    "50": "50%",
+    "75": "75%",
+    "100": "100%"
+  },
+  "placeholder": {
+    "enterAmount": "请输入数量",
+    "selectCoin": "请选择币种"
+  },
+  "currencies": {
+    "TWD": {
+      "name": "新台币",
+      "symbol": "NT$"
+    },
+    "USDT": {
+      "name": "泰达币",
+      "symbol": "USDT"
+    }
+  }
+}
+
