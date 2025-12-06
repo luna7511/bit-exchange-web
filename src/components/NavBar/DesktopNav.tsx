@@ -91,15 +91,6 @@ export default function DesktopNav({
                             triggerIcon={item.icon}
                             hideArrow
                             TriggerComponent={
-                                // <Button
-                                //     className={heightClass}
-                                //     color="inherit"
-                                //     variant="text"
-                                //     sx={{ paddingInline: "12px !important" }}
-                                // >
-                                //     {item.icon}
-                                //     {item.label}
-                                // </Button>
                                 <IconButton key={item.label} color="inherit" sx={{
                                     padding: "0 6px"
                                 }} className={heightClass}>

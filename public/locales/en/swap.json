@@ -1,0 +1,63 @@
+{
+  "title": "1-Click Buy/Sell",
+  "subtitle": "Large amount exchange at a fixed price, quickly own various cryptocurrencies!",
+  "exchangeRate": "Real-time exchange rate approximately",
+  "iWantToSpend": "I want to spend",
+  "iWantToSell": "I want to sell",
+  "iWillGet": "I will get ≈",
+  "loginToBuy": "Login to Buy",
+  "loginToSell": "Login to Sell",
+  "recurringPurchase": "Regular fixed investment for long-term gains",
+  "amountRange": "100 ~ 1,000,000",
+  "features": {
+    "title": "Features",
+    "feature1": {
+      "title": "Fixed Price",
+      "description": "One-price trading"
+    },
+    "feature2": {
+      "title": "Buy Anytime",
+      "description": "Trade whenever you want"
+    },
+    "feature3": {
+      "title": "Easy Trading",
+      "description": "Simple and convenient"
+    }
+  },
+  "tabs": {
+    "buy": "Buy",
+    "sell": "Sell"
+  },
+  "form": {
+    "selectCoin": "Select Coin",
+    "amount": "Amount",
+    "balance": "Balance",
+    "available": "Available",
+    "price": "Price",
+    "total": "Total",
+    "submit": "Confirm",
+    "buyButton": "Buy Now",
+    "sellButton": "Sell Now"
+  },
+  "balancePercentages": {
+    "25": "25%",
+    "50": "50%",
+    "75": "75%",
+    "100": "100%"
+  },
+  "placeholder": {
+    "enterAmount": "Enter amount",
+    "selectCoin": "Select a coin"
+  },
+  "currencies": {
+    "TWD": {
+      "name": "New Taiwan Dollar",
+      "symbol": "NT$"
+    },
+    "USDT": {
+      "name": "Tether",
+      "symbol": "USDT"
+    }
+  }
+}
+

@@ -17,7 +17,7 @@ const colorSize = {
 export default function Header({navHeight}: {navHeight: number}) {
     const {t} = useTranslation("header");
     const MENU_ITEMS: MenuItemType[] = [
-        { label: t("oneClickTrade") },
+        { label: t("oneClickTrade"), href: "/swap" },
         {
             label: t("trade"),
             children: [

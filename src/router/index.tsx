@@ -28,6 +28,10 @@ const HomePage = lazy(() =>
     import(/* @vite-chunk: "home-page" */ "@/pages/homePage/Home")
 );
 
+const SwapPage = lazy(() =>
+    import(/* @vite-chunk: "swap-page" */ "@/pages/swapPage/swap/")
+);
+
 
 const TermsPage = lazy(() =>
     import(/* @vite-chunk: "home-terms" */ "@/pages/commonPage/Terms")
@@ -44,6 +48,9 @@ export const router = createBrowserRouter(
             {/* 主站 */}
             <Route element={<MainLayout />}>
                 <Route index element={<HomePage />} />
+
+                {/* 一键买卖 */}
+                <Route path="swap" element={<SwapPage />} handle={{ theme: "dark", pageBgColor: "#ffffff" }} />
 
                 {/*隐私协议*/}
                 <Route path="privacyPolicy" element={<TermsPage />} handle={{ theme: "dark", title: "common:privacyPolicy", type: "3"  }} />
