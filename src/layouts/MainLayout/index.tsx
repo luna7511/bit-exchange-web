@@ -1,18 +1,45 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header.tsx";
 import usePageTheme from "@/hooks/usePageTheme.ts";
+import {type FC, useEffect, useState} from "react";
 
-const MainLayout = () => {
+const MainLayout: FC<{
+    hiddenFooter?: boolean;
+}> = ({
+                            hiddenFooter
+                        }) => {
+
+    const [navHeight, setNavHeight] = useState(56);
+
+    useEffect(() => {
+        const updateHeight = () => {
+            const height = window.innerWidth >= 1024 ? 64 : 56
+            setNavHeight(height); // lg = 1024px
+            document.body.style.setProperty("--navBarHeight", `${height}px`);
+        };
+
+        updateHeight();
+        window.addEventListener("resize", updateHeight);
+        return () => window.removeEventListener("resize", updateHeight);
+    }, []);
+    const footerHeight = 150;
     usePageTheme();
+
 
     return (
         <>
-           <Header />
+           <Header navHeight={navHeight} />
 
-            <main className="h-[1500px]">
+            <main style={{
+                minHeight: `calc(100vh - ${navHeight + (hiddenFooter ? 0 : footerHeight)}px)`
+            }}>
                 <Outlet />
             </main>
-            <div className="footer h-[50px]"></div>
+            {
+                !hiddenFooter && <div style={{
+                    minHeight: `${footerHeight}px`
+                }} className="footer  bg-white" />
+            }
         </>
     )
 }

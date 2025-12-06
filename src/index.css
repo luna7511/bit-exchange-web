@@ -14,3 +14,43 @@ html, body, #root {
     width: 100%;
     /*height: 100%;*/
 }
+
+#root {
+    position: relative;
+}
+
+.max-root-width {
+    @media (min-width: 1200px) {
+        max-width: 1200px;
+        margin-inline: calc((100vw - 1200px) / 2);
+    }
+}
+
+
+/* 通用滚动条样式 */
+.scrollbar-custom {
+    overflow: auto;
+    scrollbar-width: thin;           /* Firefox */
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent; /* Firefox: thumb track */
+}
+
+/* WebKit 浏览器 */
+.scrollbar-custom::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    border: 2px solid #f0f0f0; /* 给滑块加点内边距效果 */
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}

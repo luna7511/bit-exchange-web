@@ -2,7 +2,7 @@ import {Trans, useTranslation} from "react-i18next";
 import Typography from '@mui/material/Typography';
 import {Input} from "@/components/Input";
 import {useCallback, useState} from "react";
-import {cn} from "@/lib/utils.ts";
+import {cn} from "@/lib/utils";
 import {Link, useNavigate} from "react-router-dom";
 import {Button} from "@/components/Button";
 import Visibility from '@mui/icons-material/Visibility';

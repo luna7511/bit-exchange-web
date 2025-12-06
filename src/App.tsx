@@ -9,6 +9,8 @@ import darkTheme from "@/theme/dark";
 import lightTheme from "@/theme/light";
 import i18n from "i18next";
 import { Toaster } from 'sonner';
+import {useGetPlatformConfig} from "@/hooks/api/useCommon.ts";
+import dayjs from "dayjs";
 
 function App() {
     const theme = useGlobalStore(state => state.theme);
@@ -18,7 +20,10 @@ function App() {
         if (lang && i18n.language !== lang) {
             i18n.changeLanguage(lang);
         }
+        dayjs.locale(lang.toLocaleString());
     }, [lang]);
+
+    useGetPlatformConfig();
   return (
     <>
         <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>

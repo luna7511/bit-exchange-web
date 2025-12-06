@@ -9,9 +9,10 @@ import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 import {type MenuItemType} from "./types";
 import {styled} from "@mui/material/styles";
-import {cn} from "@/lib/utils.ts";
+import {cn} from "@/lib/utils";
 import {useGlobalStore} from "@/store/useGlobalStore.ts";
 import {themeColor} from "@/theme";
+import {useLocation, useNavigate} from "react-router-dom";
 
 
 const AppBar = styled(({className, ...props}: AppBarProps) => (
@@ -23,11 +24,11 @@ const AppBar = styled(({className, ...props}: AppBarProps) => (
     boxShadow: "none",
 }));
 
-const NAV_HEIGHT = 64;
+const DEFAULT_NAV_HEIGHT = 64;
 export default function NavBar({
                                    menuItems,
                                    userMenuItems,
-                                   height = NAV_HEIGHT
+                                   height = DEFAULT_NAV_HEIGHT
                                }: {
     menuItems: MenuItemType[];
     userMenuItems: MenuItemType[];
@@ -40,6 +41,13 @@ export default function NavBar({
     useEffect(() => {
         setNavHeight(height);
     }, [height])
+
+    const navigate = useNavigate()
+
+
+    const { pathname } = useLocation();
+
+    const isTradePage = /^\/trade\/?$/.test(pathname);
 
     return (
         <>
@@ -54,15 +62,20 @@ export default function NavBar({
                 }}
             >
                 <Toolbar className="container mx-auto flex gap-6 px-6 justify-between min-h-auto! max-w-[inherit]!">
-                    <Box className="text-2xl font-bold" sx={{ lineHeight: navHeight + "px" }}>
+                    <Box className={cn(
+                        "md:block text-2xl font-bold cursor-pointer",
+                        isTradePage ? "hidden" : undefined,
+                    )} sx={{ lineHeight: navHeight + "px" }} onClick={() => navigate("/")}>
                         BitoPro
                     </Box>
 
                     <DesktopNav menuItems={menuItems} userMenuItems={userMenuItems} />
 
-                    <IconButton className="lg:hidden!" onClick={() => setMobileOpen(true)}>
-                        <MenuIcon />
-                    </IconButton>
+                    <div className="ml-auto">
+                        <IconButton className="lg:hidden!" onClick={() => setMobileOpen(true)}>
+                            <MenuIcon />
+                        </IconButton>
+                    </div>
                 </Toolbar>
             </AppBar>
 

@@ -1,6 +1,6 @@
 import MUIButton, {type ButtonProps as  MUIButtonProps} from "@mui/material/Button";
 import {styled} from "@mui/material/styles";
-import {cn} from "@/lib/utils.ts";
+import {cn} from "@/lib/utils";
 import MUIIconButton, {type IconButtonProps as MUIIconButtonProps} from "@mui/material/IconButton";
 
 type OldButtonSize = "small" | "medium" | "large";
@@ -18,7 +18,7 @@ export const Button = styled(
 
         return (
             <MUIButton
-                size={(["small", "medium", "large"].some(d => d ===size) ? size : "medium") as OldButtonSize}     // 统一给 MUI 合法 size
+                size={(["small", "medium", "large"].some(d => d ===size) ? size : "") as OldButtonSize}     // 统一给 MUI 合法 size
                 variant={variant}
                 classes={{
                     sizeMedium: "",
@@ -35,7 +35,7 @@ export const Button = styled(
             />
         );
     }
-)(() => ({
+)(({theme}) => ({
     flexDirection: "row",
     fontWeight: "normal",
     textTransform: "none",
@@ -53,7 +53,7 @@ export const Button = styled(
     },
 
     "&.MuiButton-sizeExtraSmall": { fontSize: "13px" },
-    "&.MuiButton-sizeSmall": { fontSize: "14px" },
+    "&.MuiButton-sizeSmall": { fontSize: "14px", padding: "6px 21px" },
     "&.MuiButton-sizeMedium": {
         fontSize: "14px", fontWeight: "bold",
         padding: "8.5px 21px",
@@ -79,6 +79,13 @@ export const Button = styled(
             fontSize: "20px",
         },
     },
+    ...theme.applyStyles("dark", {
+        "&.MuiButton-text": {
+            "&:hover": {
+                color: "rgba(255,255,255,0.7) !important",
+            },
+        },
+    })
 }));
 export const IconButton = styled((props: MUIIconButtonProps) => {
     return <MUIIconButton disableRipple {...props} />;

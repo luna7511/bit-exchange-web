@@ -13,7 +13,7 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import { Fragment } from "react/jsx-runtime";
 import {themeColor} from "@/theme";
 import {useGlobalStore} from "@/store/useGlobalStore.ts";
-import {type FC, useEffect} from "react";
+import {type FC, useCallback, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
 
@@ -37,7 +37,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
         expandIcon={<ArrowForwardIosSharpIcon className="text-base font-bold" />}
         {...props}
     />
-))(() => ({
+))(({theme}) => ({
     backgroundColor: "transparent",
     flexDirection: 'row',
     padding: "8px",
@@ -56,15 +56,21 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
         display: "inline-flex",
         gap: "0.25rem",
     },
+    ...theme.applyStyles('dark', {
+        color: "#fff"
+    }),
 }));
 
-const AccordionDetails = styled(MuiAccordionDetails)(() => ({
+const AccordionDetails = styled(MuiAccordionDetails)(({theme}) => ({
     padding: "24px 8px",
     borderTop: '0 solid rgba(0, 0, 0, .125)',
     textAlign: 'left',
     display: 'flex',
     flexDirection: 'column',
     gap: "20px",
+    ...theme.applyStyles('dark', {
+        color: "#fff"
+    }),
 }));
 
 
@@ -73,6 +79,7 @@ const DrawButton: FC<ButtonProps> = (props) => {
         variant="text"
         size="medium"
         sx={{
+            paddingInline: '8px !important',
             justifyContent: "flex-start",
             "&:hover": {
                 color: "var(--default) !important",
@@ -84,11 +91,11 @@ const DrawButton: FC<ButtonProps> = (props) => {
 };
 
 export default function MobileNav({
-                                      open,
-                                      onClose,
-                                      menuItems,
-                                      userMenuItems,
-                                  }: {
+      open,
+      onClose,
+      menuItems,
+      userMenuItems,
+  }: {
     open: boolean;
     onClose: () => void;
     menuItems: MenuItemType[];
@@ -112,6 +119,13 @@ export default function MobileNav({
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, [open, onClose]);
+
+
+    const toLink = useCallback((url?: string) => {
+        if (url) {
+            navigate(url);
+        }
+    }, []);
 
     return (
         <Drawer
@@ -138,11 +152,11 @@ export default function MobileNav({
                     <Button variant="contained" color="info" size="medium" sx={{
                         borderRadius: '20px',
                         flex: 1,
-                    }} onClick={() => navigate("/users/signIn")}>登录</Button>
+                    }} onClick={() => toLink("/users/signIn")}>登录</Button>
                     <Button variant="contained" size="medium" sx={{
                         borderRadius: '20px',
                         flex: 1,
-                    }} onClick={() => navigate("/users/signUp")}>注册</Button>
+                    }} onClick={() => toLink("/users/signUp")}>注册</Button>
                 </div>
 
                 {/* --------- 菜单 --------- */}
@@ -158,7 +172,7 @@ export default function MobileNav({
                                     {
                                         item.children?.map((child) => (
                                             <div key={child.label}>
-                                                <DrawButton color="inherit" size="small">
+                                                <DrawButton color="inherit" size="small" onClick={() => toLink(child.url)}>
                                                     {child.icon}
                                                     {child.label}
                                                 </DrawButton>
@@ -170,7 +184,7 @@ export default function MobileNav({
                         </Fragment>
                     ) : (
                         <div key={item.label}>
-                            <DrawButton color="inherit" size="medium">
+                            <DrawButton color="inherit" size="medium" onClick={() => toLink(item.url)}>
                                 {item.label}
                             </DrawButton>
                         </div>
@@ -202,7 +216,7 @@ export default function MobileNav({
                                     {
                                         item.children?.map((child) => (
                                             <div key={child.label}>
-                                                <DrawButton color="inherit" size="small">
+                                                <DrawButton color="inherit" size="small" onClick={() => toLink(child.url)}>
                                                     {child.icon}
                                                     {child.label}
                                                 </DrawButton>
@@ -214,7 +228,7 @@ export default function MobileNav({
                         </Fragment>
                     ) : (
                         <div key={item.label}>
-                            <DrawButton color="inherit" size="small">
+                            <DrawButton color="inherit" size="small" onClick={() => toLink(item.url)}>
                                 {item.icon}
                                 {item.label}
                             </DrawButton>

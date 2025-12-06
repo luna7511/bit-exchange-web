@@ -45,16 +45,16 @@ export const router = createBrowserRouter(
             <Route element={<MainLayout />}>
                 <Route index element={<HomePage />} />
 
-                {/* 交易页 */}
-                <Route path="trade" element={<TradePage />} />
-
-                <Route path="userTerms" element={<TermsPage type={"TERMS_CLAUSE"}  />} handle={{ theme: "dark" }} />
+                {/*隐私协议*/}
+                <Route path="privacyPolicy" element={<TermsPage />} handle={{ theme: "dark", title: "common:privacyPolicy", type: "3"  }} />
+                {/*许可证*/}
+                <Route path="license" element={<TermsPage />} handle={{ theme: "dark", title: "common:license", type: "4" }} />
             </Route>
 
-            {/* 交易页 */}
-            {/*<Route path="trade" element={<AuthLayout />}>*/}
-            {/*    <Route index element={<TradePage />} />*/}
-            {/*</Route>*/}
+            <Route path="trade" element={<MainLayout hiddenFooter />}>
+                {/* 交易页 */}
+                <Route index element={<TradePage />} handle={{ theme: "black"  }} />
+            </Route>
         </>
     )
 );

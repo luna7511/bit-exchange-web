@@ -1,4 +1,5 @@
 import request from "@/lib/request";
+import type {PlatformConfig} from "@/api/type/common.ts";
 
 // 用户名注册
 export const userAccountRegister = (parmas: {
@@ -39,17 +40,18 @@ export const sendCaptchaCode = (scene: string, email: string) => {
 }
 
 /**
- * TERMS_CLAUSE --服务条款
- * PERIOD_EXPLAIN --秒合约说明
- * COIN_EXPLAIN --币币交易说明
- * AGENCY_ACTIVITY --代理活动
- * U_STANDARD_EXPLAIN --U本位合约说明
- * REGISTRY_PRIVACY --注册隐私政策
- * REGISTRY_CLAUSE --注册使用条款
- * LOANS_RULE --贷款规则
- * FREEZE_PROMPT -- 冻结文本
+ * 获取前台文本配置
+ * @param contentType	内容类型 1:诈骗风险警告 2:交易风险警告 3:隐私协议 4:许可证 5:关于我们
+ * @param langCode 语言代码 如: ZH_CN(简体中文), EN(英文), ZH_TW(繁体中文)
  * @returns 获取前台文本配置
  */
-export const getTerms = (query: string) => {
-    return request.post(`/api/option/rules/list?key=${query}`, {});
+export const getTerms = (contentType: string, langCode: string) => {
+    return request.get<{data: string}>("/api/content-config/default", {
+        contentType,
+        langCode
+    });
+}
+
+export const getPlatformConfig = () => {
+    return request.get<PlatformConfig>(`/api/platform/config`, {})
 }

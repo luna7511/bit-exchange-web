@@ -1,98 +1,137 @@
 import Box from "@mui/material/Box";
 import MUIMenuItem, {type MenuItemProps} from "@mui/material/MenuItem";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {cloneElement, type FC, isValidElement, type JSX, type ReactNode, useRef, useState} from "react";
-import {cn} from "@/lib/utils.ts";
+import {Children, cloneElement, type FC, isValidElement, type JSX, type ReactNode, useRef, useState} from "react";
+import {cn} from "@/lib/utils";
 import {styled} from "@mui/material/styles";
 import {useGlobalStore} from "@/store/useGlobalStore.ts";
 import {Paper} from "@/components/Paper";
 import {Popper} from "@/components/Popper";
 import {Button} from "@/components/Button";
+import type {PopperProps} from "@mui/material/Popper";
+import type {PaperProps} from "@mui/material/Paper";
 
 export interface DrawMenuProps {
+    triggerClass?: string;
     triggerLabel?: string | ReactNode;
     triggerIcon?: JSX.Element | ReactNode;
-    TriggerComponent?: ReactNode; // 自定义 Trigger
-    children?: ReactNode[];
+    TriggerComponent?: ReactNode;
     hideArrow?: boolean;
+    children?: ReactNode;
+    direction?: "horizontal" | "vertical";
+    slot?: {
+        Popper?: PopperProps;
+        Paper?: PaperProps
+    }
+
+
+    /** 新增 --- 外部控制 open */
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
 }
+
 export const DrawMenu: FC<DrawMenuProps> = ({
+                                                triggerClass,
                                                 triggerLabel,
                                                 triggerIcon,
                                                 TriggerComponent,
                                                 hideArrow,
-                                                children
+                                                children,
+                                                open: controlledOpen,
+                                                onOpenChange,
+                                                direction="vertical",
+                                                slot
                                             }) => {
     const hoverRef = useRef<HTMLDivElement>(null);
-    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-    const handleMouseLeave = (e: React.MouseEvent) => {
-        const related = e.relatedTarget as HTMLElement;
-        if (related instanceof Node && hoverRef.current?.contains(related)) return;
-        setAnchorEl(null);
+
+    /** 内部状态（若使用外部 open，则内部状态不会生效） */
+    const [internalOpen, setInternalOpen] = useState(false);
+
+    const open = controlledOpen ?? internalOpen;
+
+    const setOpen = (value: boolean) => {
+        if (onOpenChange) onOpenChange(value);
+        else setInternalOpen(value);
     };
 
-    const open = Boolean(anchorEl);
 
-    const heightClass = "h-[var(--navbarHeight)]";
     return (
         <Box
             ref={hoverRef}
-            className={cn("relative", heightClass)}
-            onMouseEnter={(e) => setAnchorEl(e.currentTarget)}
-            onMouseLeave={handleMouseLeave}
+            className={cn("relative")}
+            onClick={() => setOpen(!open)}
+            onMouseEnter={() => setOpen(true)}
+            onMouseLeave={() => setOpen(false)}
         >
-            {
-                TriggerComponent || (
+            {/* Trigger */}
+            <div className="flex items-center">
+                {TriggerComponent || (
                     <Button
-                        className={heightClass}
+                        className={cn(
+                            triggerClass,
+                        )}
                         color="inherit"
                         variant="text"
-                        sx={{
-                            paddingInline: "12px !important",
-                        }}
+                        sx={{ paddingInline: "12px !important" }}
                     >
-                        {triggerIcon}
                         {triggerLabel}
-                        {
-                            !hideArrow && (
-                                <div  className={cn([
-                                    "transition-all duration-200 ease-in-out inline-block ml-1",
-                                    open ? "rotate-180" : "",
-                                ])}>
-                                    <ExpandMoreIcon />
-                                </div>
-                            )
-                        }
                     </Button>
-                )
-            }
+                )}
+                {!hideArrow && (
+                    <div
+                        className={cn(
+                            "transition-all duration-200 flex items-center justify-center",
+                            open ? "rotate-180" : ""
+                        )}
+                        style={{ transformOrigin: "center" }}
+                    >
+                        {triggerIcon || <ExpandMoreIcon className="ml-1" />}
+                    </div>
+                )}
+            </div>
 
-            {/* Hover Paper */}
+
+            {/* Popper */}
             <Popper
                 open={open}
-                anchorEl={anchorEl}
+                anchorEl={hoverRef.current}
                 placement="bottom-start"
-                container={hoverRef.current}
-                modifiers={[{ name: "offset", options: {offset: [0, 0] } }]}
+                modifiers={[{ name: "offset", options: { offset: [0, 1] } }]}
+                {...slot?.Popper}
             >
                 <Paper
-                    onMouseLeave={handleMouseLeave}
-                    // className="min-w-[200px]"
-                >
-                    {/*{children?.map((child) => child)}*/}
+                    {...slot?.Paper}
+                    onMouseLeave={() => setOpen(false)}
+                    sx={
+                        direction === "horizontal" ? {
+                            display: "flex",
+                            maxWidth: "calc(100vw - 40px)",
+                            flexWrap: "wrap",
+                            "@media (min-width: 1024px)": {
+                                maxWidth: "500px"
+                            },
+                            ...slot?.Paper?.sx
+                        } : {...slot?.Paper?.sx}
+                    }
 
-                    {children?.map((child) =>
-                        isValidElement(child)
-                            ? cloneElement(child, {
-                                closeMenu: () => setAnchorEl(null)
-                            })
-                            : child
-                    )}
+                >
+                    {Children.map(children, (child) => {
+                        if (!isValidElement(child)) return child;
+
+                        /** 只有 DrawMenuItem 才注入 closeMenu */
+                        if (child.type === DrawMenuItem) {
+                            return cloneElement(child, {
+                                closeMenu: () => setOpen(false),
+                            });
+                        }
+
+                        return child;
+                    })}
                 </Paper>
             </Popper>
         </Box>
-    )
-}
+    );
+};
 
 const MenuItem = styled(({className, ...props}: MenuItemProps) => (
     <MUIMenuItem

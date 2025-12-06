@@ -8,20 +8,20 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
-import {cn} from "@/lib/utils.ts";
+import {cn} from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 const colorSize = {
     fontSize: "1.25rem"
 }
-export default function Header() {
+export default function Header({navHeight}: {navHeight: number}) {
     const {t} = useTranslation("header");
     const MENU_ITEMS: MenuItemType[] = [
         { label: t("oneClickTrade") },
         {
             label: t("trade"),
             children: [
-                { label: t("spotTrade"), desc: t("multiOrderSupport"), icon: <HomeIcon sx={colorSize} /> },
+                { label: t("spotTrade"), desc: t("multiOrderSupport"), icon: <HomeIcon sx={colorSize} />, url: "/trade" },
                 { label: t("networkBot"),desc: t("autoTrading"),  icon: <CreditCardIcon sx={colorSize} /> },
             ],
         },
@@ -61,18 +61,28 @@ export default function Header() {
     const lastScrollY = useRef(0);
 
     useEffect(() => {
+        let ticking = false;
+
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
 
-            if (currentScrollY < lastScrollY.current) {
-                // 向上滚动
-                setIsFixed(true);
-            } else {
-                // 向下滚动
-                setIsFixed(false);
-            }
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    // 向上滚动 -> 显示
+                    if (currentScrollY < lastScrollY.current) {
+                        setIsFixed(true);
+                    }
+                    // 向下滚动 -> 超过 navHeight 才隐藏
+                    else if (currentScrollY > navHeight) {
+                        setIsFixed(false);
+                    }
 
-            lastScrollY.current = currentScrollY;
+                    lastScrollY.current = currentScrollY;
+                    ticking = false;
+                });
+
+                ticking = true;
+            }
         };
 
         window.addEventListener("scroll", handleScroll, { passive: true });
@@ -80,11 +90,10 @@ export default function Header() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const navHeight = 64;
     return (
         <>
             <div className={cn(
-                "fixed left-0 w-full z-50 transition-transform duration-300 ease-in-out",
+                "fixed left-0 w-full z-20 transition-transform duration-300 ease-in-out",
                 isFixed ? "translate-y-0" : "-translate-y-full"
             )}>
                 <NavBar

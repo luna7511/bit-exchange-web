@@ -1,5 +1,9 @@
 {
   "placeholder": {
     "input": "请输入"
-  }
+  },
+  "privacyPolicy": "隐私协议",
+  "license": "许可证",
+  "continue": "继续",
+  "cancel": "取消"
 }

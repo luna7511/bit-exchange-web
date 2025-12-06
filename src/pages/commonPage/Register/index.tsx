@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import {Input} from "@/components/Input";
 import {useState} from "react";
 import Checkbox from "@mui/material/Checkbox";
-import {cn} from "@/lib/utils.ts";
+import {cn} from "@/lib/utils";
 import {Link, useNavigate} from "react-router-dom";
 import {Button} from "@/components/Button";
 import Visibility from '@mui/icons-material/Visibility';
@@ -332,7 +332,7 @@ const Register = () => {
                     <Trans
                         i18nKey="auth:agreeTerms"
                         components={{
-                            t: <Link to="/userTerms" target="_blank" className="text-primary px-1"/>
+                            t: <Link to="/privacyPolicy" target="_blank" className="text-primary px-1"/>
                         }}
                     />
                 </span>

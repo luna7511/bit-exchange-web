@@ -2,7 +2,7 @@ import type {CSSProperties} from "react";
 import Header from "./header.tsx";
 import {Outlet} from "react-router-dom";
 import usePageTheme from "@/hooks/usePageTheme.ts";
-import {cn} from "@/lib/utils.ts";
+import {cn} from "@/lib/utils";
 
 const TradeLayout = () => {
     usePageTheme();

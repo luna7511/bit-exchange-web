@@ -16,11 +16,13 @@ i18n
         interpolation: {
             escapeValue: false,
         },
-        debug: import.meta.env.DEV,
+        // debug: import.meta.env.DEV,
+        debug: false,
         detection: {
             // 关闭浏览器语言检测
             order: [],
         },
+        react: { useSuspense: false },
     });
 
 export default i18n;

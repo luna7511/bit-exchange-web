@@ -1,7 +1,23 @@
-import {getTerms, sendCaptchaCode, userAccountLogin, userAccountRegister, userEmailRegister, userEmailLogin } from "@/api/common.ts";
+import {
+    getTerms, sendCaptchaCode, userAccountLogin, userAccountRegister, userEmailRegister, userEmailLogin,
+    getPlatformConfig
+} from "@/api/common.ts";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {useUserStore} from "@/store/useUserStore.ts";
+import {useGlobalStore} from "@/store/useGlobalStore.ts";
+import {usePlatformStore} from "@/store/usePlatformStore.ts";
 
+
+export const useGetPlatformConfig = () => {
+    const setPlatformConfig = usePlatformStore(state => state.setPlatformConfig);
+    return useQuery({
+        queryKey: ["getPlatformConfig"],
+        queryFn: async() => {
+            const data = await getPlatformConfig();
+            setPlatformConfig(data?? {});
+        }
+    })
+}
 // 用户名注册
 export const useUserAccountRegister = () => {
     return useMutation({
@@ -68,9 +84,10 @@ export function useSendCaptchaCode() {
 }
 
 export const useGetTerms = (key: string) => {
+    const lang = useGlobalStore(state => state.lang);
     return useQuery({
-        queryKey: ["getTerms", key],
-        queryFn: () => getTerms(key),
+        queryKey: ["getTerms", key, lang],
+        queryFn: () => getTerms(key, lang.toUpperCase()),
         enabled: !!key,
     })
 }

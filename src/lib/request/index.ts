@@ -18,7 +18,7 @@ service.interceptors.request.use(
 
         const token = useUserStore.getState().token;
         if (token) {
-            config.headers.authorization = token;
+            config.headers.Authorization = token;
         }
         if (!IS_PROD) {
             console.log("http请求", config.url, config.params, config.data);
@@ -38,17 +38,24 @@ service.interceptors.response.use(
         const data = res.data;
         if (data.code !== 200) {
             // 错误处理
-            if (data.code === "500" && data?.msg?.includes('Token')) {
+            if (data.code === 401) {
                 console.error("token过期");
                 useUserStore.getState().userLogout();
-                window.location.href = "/users/signIn";
+                // todo 如果不在白名单列表，就回到首页
+                window.location.href = "/";
             } else if (data.msg) {
                 toast.error(data.msg)
             }
             return Promise.reject(data);
         }
 
-        return data;
+        if (data.token) {
+            return {
+                token: data.token,
+            }
+        }
+        // todo token返回对齐
+        return data?.data;
     },
     (err: Error) => {
         console.log("请求失败", err, err.message);

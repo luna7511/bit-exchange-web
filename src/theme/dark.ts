@@ -32,6 +32,24 @@ const darkTheme = createTheme({
         },
     },
     ...commonTheme,
+    components: {
+        MuiDialog: {
+            styleOverrides: {
+                paper: {
+                    backgroundColor: "#1a1a1a",
+                }
+            }
+        },
+        MuiTooltip: {
+            styleOverrides: {
+                tooltip: {
+                    fontSize: "14px",
+                    backgroundColor: "#1a1a1a",
+                    backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.165), rgba(255, 255, 255, 0.165))"
+                }
+            }
+        }
+    }
 });
 
 export default darkTheme;

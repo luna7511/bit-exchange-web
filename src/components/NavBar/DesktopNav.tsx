@@ -2,8 +2,10 @@ import { Box, Divider } from "@mui/material";
 import { Button, IconButton } from "@/components/Button";
 import { DrawMenu, DrawMenuItem } from "../DrawMenu";
 import {type MenuItemType} from "./types";
-import {cn} from "@/lib/utils.ts";
+import {cn} from "@/lib/utils";
 import {useNavigate} from "react-router-dom";
+import {useCallback} from "react";
+import {useTranslation} from "react-i18next";
 
 export default function DesktopNav({
                                        menuItems,
@@ -12,9 +14,16 @@ export default function DesktopNav({
     menuItems: MenuItemType[];
     userMenuItems: MenuItemType[];
 }) {
+    const {t} = useTranslation("auth")
     const heightClass = "h-[var(--navbarHeight)]";
 
     const navigate = useNavigate();
+
+    const toLink = useCallback((url?: string) => {
+        if (url) {
+            navigate(url);
+        }
+    }, []);
 
     return (
         <Box className="hidden lg:flex justify-between flex-1">
@@ -24,8 +33,17 @@ export default function DesktopNav({
                     item.children ? (
                         <DrawMenu
                             key={item.label}
-                            triggerIcon={item.icon}
-                            triggerLabel={item.label}
+                            TriggerComponent={
+                                <Button
+                                    className={heightClass}
+                                    color="inherit"
+                                    variant="text"
+                                    sx={{ paddingInline: "8px !important" }}
+                                >
+                                    {item.icon}
+                                    {item.label}
+                                </Button>
+                            }
                         >
                             {item.children.map((child) => (
                                 <DrawMenuItem
@@ -34,13 +52,14 @@ export default function DesktopNav({
                                     label={child.label}
                                     description={child.desc}
                                     className="min-w-[250px]!"
+                                    onClick={() => toLink(child.url)}
                                 />
                             ))}
                         </DrawMenu>
                     ) : (
                         <Button key={item.label} color="inherit" variant="text" sx={{
-                            paddingInline: "12px !important",
-                        }} className={heightClass}>
+                            paddingInline: "8px !important",
+                        }} className={heightClass} onClick={() => toLink(item.url)}>
                             {item.icon}
                             {item.label}
                         </Button>
@@ -51,14 +70,14 @@ export default function DesktopNav({
             {/* ------- 右侧用户菜单 ------- */}
             <Box className="flex gap-4 items-center">
                 <div>
-                    <Button color="info" size="small" sx={{
+                    <Button color="info" size="extraSmall" sx={{
                         borderRadius: '35px',
-                    }} onClick={() => navigate("/users/signIn")}>登录</Button>
+                    }} onClick={() => toLink("/users/signIn")}>{t("sigIn")}</Button>
                 </div>
                 <div>
-                    <Button size="small" sx={{
+                    <Button size="extraSmall" sx={{
                         borderRadius: '35px',
-                    }} onClick={() => navigate("/users/signUp")}>注册</Button>
+                    }} onClick={() => toLink("/users/signUp")}>{t("signUp")}</Button>
                 </div>
                 <Divider flexItem orientation="vertical" sx={{
                     height: "30px",
@@ -72,6 +91,15 @@ export default function DesktopNav({
                             triggerIcon={item.icon}
                             hideArrow
                             TriggerComponent={
+                                // <Button
+                                //     className={heightClass}
+                                //     color="inherit"
+                                //     variant="text"
+                                //     sx={{ paddingInline: "12px !important" }}
+                                // >
+                                //     {item.icon}
+                                //     {item.label}
+                                // </Button>
                                 <IconButton key={item.label} color="inherit" sx={{
                                     padding: "0 6px"
                                 }} className={heightClass}>
@@ -84,13 +112,14 @@ export default function DesktopNav({
                                     key={child.label}
                                     icon={child.icon}
                                     label={child.label}
+                                    onClick={() => toLink(child.url)}
                                 />
                             ))}
                         </DrawMenu>
                     ) : (
                         <IconButton key={item.label} color="inherit" sx={{
                             padding: "0 6px"
-                        }} className={cn(heightClass)}>
+                        }} className={cn(heightClass)} onClick={() => toLink(item.url)}>
                             {item.icon}
                         </IconButton>
                     )

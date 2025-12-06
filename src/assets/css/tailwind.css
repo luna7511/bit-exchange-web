@@ -2,8 +2,8 @@
 
 :root {
     --background: #fff;
-    --success: #04a981;
-    --error: #f54751;
+    --success: #04A981FF;
+    --error: #F54751FF;
     --warning: #facc15;
     --info: rgb(237, 240, 247);
     --primary: rgb(49, 95, 238);

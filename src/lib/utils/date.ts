@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
+import duration, {type DurationUnitType} from "dayjs/plugin/duration";
+import 'dayjs/locale/zh-cn'
+import 'dayjs/locale/zh-tw'
 
 dayjs.extend(duration);
 
@@ -7,31 +9,35 @@ dayjs.extend(duration);
 const TIME_UNITS: Record<
     string,
     {
+        month: string;
+        week: string;
         day: string;
         hour: string;
         minute: string;
         second: string;
     }
 > = {
-    "zh-cn": {
+    "zh-CN": {
+        month: "月",
+        week: "周",
         day: "天",
         hour: "时",
         minute: "分",
         second: "秒",
     },
-    en: { day: "d", hour: "h", minute: "m", second: "s" },
+    en: { month: "M", week: "W", day: "D", hour: "h", minute: "m", second: "s" },
 };
 
 /**
  * 格式化持续时间
  */
-export function formatDuration(seconds: number): string {
+export function formatDuration(seconds: number, unit: DurationUnitType = "seconds"): string {
     if (isNaN(seconds) || seconds < 0) return "0";
 
     const locale = dayjs.locale();
     const units = TIME_UNITS[locale] || TIME_UNITS.en;
 
-    const d = dayjs.duration(seconds, "seconds");
+    const d = dayjs.duration(seconds, unit);
     const days = Math.floor(d.asDays());
     const hours = d.hours();
     const minutes = d.minutes();

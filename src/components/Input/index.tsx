@@ -9,6 +9,7 @@ const Input = styled((props: TextFieldProps) => {
     'label + &': {
         marginTop: theme.spacing(1),
     },
+    marginBlock: "0.25rem",
     '& .MuiInputBase-input': {
 
         position: 'relative',
@@ -32,7 +33,14 @@ const Input = styled((props: TextFieldProps) => {
     },
     "& .MuiOutlinedInput-notchedOutline": {
         borderColor: 'rgba(255,255,255,0.3)',
-    }
+    },
+    ...theme.applyStyles('dark', {
+        backgroundColor: 'rgb(40, 42, 49)',
+        borderRadius: "8px",
+        "& .MuiOutlinedInput-notchedOutline": {
+            borderWidth: 0,
+        },
+    })
 }));
 
 export {
