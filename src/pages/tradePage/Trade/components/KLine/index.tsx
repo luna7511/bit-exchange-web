@@ -9,8 +9,9 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import QuoteNavBar from "@/pages/tradePage/Trade/components/QuoteNavBar";
 import Divider from "@mui/material/Divider";
-import {IconButton} from "@/components/Button";
+import {Button, IconButton} from "@/components/Button";
 import {DrawMenu, DrawMenuItem} from "@/components/DrawMenu";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const KLine = ({ coinInfo }: {coinInfo: CoinInfo}) => {
     const theme = "dark";
@@ -108,7 +109,14 @@ const KLine = ({ coinInfo }: {coinInfo: CoinInfo}) => {
                 </div>
                 <div className={"lg:hidden"}>
                     <DrawMenu
-                        triggerLabel={`${interval.labelPrefix}${t(t(interval.labelKey))}`}
+                        className={"border px-1"}
+                        TriggerComponent={
+                            <Button variant={"text"} size={"extraSmall"} sx={{
+                                minWidth: "auto",
+                                padding: "0 4px",
+                            }}>{`${interval.labelPrefix}${t(t(interval.labelKey))}`}</Button>
+                        }
+                        triggerIcon={<ExpandMoreIcon className="-ml-1" />}
                         direction={"horizontal"}
                         slot={{
                             Paper: {

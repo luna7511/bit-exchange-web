@@ -38,7 +38,12 @@ export default function DesktopNav({
                                     className={heightClass}
                                     color="inherit"
                                     variant="text"
-                                    sx={{ paddingInline: "8px !important" }}
+                                    sx={{
+                                        paddingInline: "8px !important",
+                                        "&:hover": {
+                                            backgroundColor: "transparent"
+                                        }
+                                    }}
                                 >
                                     {item.icon}
                                     {item.label}
@@ -59,6 +64,9 @@ export default function DesktopNav({
                     ) : (
                         <Button key={item.label} color="inherit" variant="text" sx={{
                             paddingInline: "8px !important",
+                            "&:hover": {
+                                backgroundColor: "transparent"
+                            }
                         }} className={heightClass} onClick={() => toLink(item.url)}>
                             {item.icon}
                             {item.label}

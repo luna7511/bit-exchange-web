@@ -22,7 +22,8 @@ export interface DrawMenuProps {
     slot?: {
         Popper?: PopperProps;
         Paper?: PaperProps
-    }
+    };
+    className?: string;
 
 
     /** 新增 --- 外部控制 open */
@@ -37,6 +38,7 @@ export const DrawMenu: FC<DrawMenuProps> = ({
                                                 TriggerComponent,
                                                 hideArrow,
                                                 children,
+                                                className,
                                                 open: controlledOpen,
                                                 onOpenChange,
                                                 direction="vertical",
@@ -58,7 +60,7 @@ export const DrawMenu: FC<DrawMenuProps> = ({
     return (
         <Box
             ref={hoverRef}
-            className={cn("relative")}
+            className={cn("relative", className)}
             onClick={() => setOpen(!open)}
             onMouseEnter={() => setOpen(true)}
             onMouseLeave={() => setOpen(false)}
@@ -72,7 +74,12 @@ export const DrawMenu: FC<DrawMenuProps> = ({
                         )}
                         color="inherit"
                         variant="text"
-                        sx={{ paddingInline: "12px !important" }}
+                        sx={{
+                            paddingInline: "12px !important",
+                            "&:hover": {
+                                backgroundColor: "transparent"
+                            }
+                        }}
                     >
                         {triggerLabel}
                     </Button>
